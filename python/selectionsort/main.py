@@ -1,3 +1,9 @@
+# Some boilerplate code to grab test from the parent directory
+import os, sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from test import test
+
 def _swap(x, i, j):
     """ Swaps the position of elements i and j in list x """
 
@@ -16,42 +22,29 @@ def selectionsort(x):
         - Note: In this implementation, the divider indicates the first item in
         the unsorted portion of the list.
     2. Iterate through the entire right side
-    3. Return the smallest value on the right side compared to all the others
+    3. Find the smallest value on the right side compared to all the others
     4. Swap that value with the first value in the unsorted list (the divider)
+    5. Return the list once the unsorted section no longer has values
 
     """
+
+    _x = x.copy()
     
     divider = 0
-    last = len(x)
+    last = len(_x)
 
     while divider != last:
         lowindex = divider
 
         for index in range(divider, last):
-            if x[index] < x[lowindex]:
+            if _x[index] < _x[lowindex]:
                 lowindex = index
 
-        _swap(x, divider, lowindex)
+        _swap(_x, divider, lowindex)
 
         divider += 1
 
+    return _x
+
 if __name__ == "__main__":
-    tests = [
-        [5, 7, 1, 9, 89, 15, 14, 2],
-        [False, True, False, True],
-        ['z', 'x', 'u', 'i', 'o', 'z', 'r', 'a', 'b'],
-        ['grape', 'orange', 'apple', 'zebra']
-    ]
-
-    for testlist in tests:
-        testsort = testlist.copy()
-        print("Unsorted: ", testsort)
-        selectionsort(testsort)
-        print("Sorted: ", testsort, "\n")
-
-        stdsort = testlist.copy()
-        stdsort.sort()
-
-        assert stdsort == testsort, "Test list " + testlist + " was not sorted correctly by selectionsort"
-        
-    print("All tests passed")
+    test(selectionsort)

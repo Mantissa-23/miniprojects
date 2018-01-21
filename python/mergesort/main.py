@@ -1,3 +1,9 @@
+# Some boilerplate code to grab test from the parent directory
+import os, sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from test import test
+
 def mergesort(l):
     """ Implementation of the mergesort algorithm
 
@@ -54,6 +60,4 @@ def merge(left, right):
     return worklist
 
 if __name__ == "__main__":
-    testlist = [37, 24, 66, 77, 10, 1, 5, 7, 2, 89, 106, 55]
-
-    print(mergesort(testlist))
+    test(mergesort)
