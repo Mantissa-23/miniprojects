@@ -17,6 +17,6 @@ def test(func):
         stdsort = testlist.copy()
         stdsort.sort()
 
-        assert stdsort == testsort, "Test list " + testlist + " was not sorted correctly by " + func.__name__
+        assert stdsort == testsort, "Sorted list " + str(testsort) + " was not sorted correctly by " + func.__name__
         
     print("All tests passed")

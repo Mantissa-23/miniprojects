@@ -11,7 +11,6 @@ def _swap(x, i, j):
     x[j] = x[i]
     x[i] = temp
 
-
 def selectionsort(x):
     """ Python implementation of a selection sort, in-place
 
