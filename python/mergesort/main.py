@@ -1,4 +1,16 @@
 def mergesort(l):
+    """ Implementation of the mergesort algorithm
+
+    Sorts list l by the following steps:
+    1. Look at list l. If the length is less than 2 (either 1 or 0), return the
+    list, as it must be sorted.
+    2. If the list is longer than two, split it in half, and sort each half
+    independently starting at step 1.
+    3. Merge the two halves via the included merge function
+    4. The final, merged list will be sorted.
+
+    """
+
     if len(l) < 2:
         return l
     else:
@@ -13,23 +25,33 @@ def mergesort(l):
         return merge(left, right)
 
 def merge(left, right):
-    workarray = []
+    """ Merge two lists by the following method:
+
+    1. Begin iterating through both halves simultaneously
+    2. Compare the currently indexed value of each half
+    3. Add the smaller value to the final, merged list, increment 
+
+    """
+    worklist = []
 
     lindex = 0
     rindex = 0
 
     while lindex < len(left) and rindex < len(right):
         if left[lindex] > right[rindex]:
-            workarray.append(right[rindex])
+            worklist.append(right[rindex])
             rindex += 1
         else:
-            workarray.append(left[lindex])
+            worklist.append(left[lindex])
             lindex += 1
 
-    workarray += left[lindex:]
-    workarray += right[rindex:]
+    # It is necessary to append the remainder of the lists to the end of the
+    # worklist because we used `and` instead of `or` for the loop's conditional.
+    # Using `or` would be more concise, but less efficient.
+    worklist += left[lindex:]
+    worklist += right[rindex:]
 
-    return workarray
+    return worklist
 
 if __name__ == "__main__":
     testlist = [37, 24, 66, 77, 10, 1, 5, 7, 2, 89, 106, 55]
