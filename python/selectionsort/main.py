@@ -13,7 +13,7 @@ def _swap(x, i, j):
 
 
 def selectionsort(x):
-    """ Python implementation of a selection sort
+    """ Python implementation of a selection sort, in-place
 
     Sorts lists by the following algorithm:
     1. Index a divider that separates the list into:
@@ -28,23 +28,23 @@ def selectionsort(x):
 
     """
 
-    _x = x.copy()
+    #_x = x.copy()
     
     divider = 0
-    last = len(_x)
+    last = len(x)
 
     while divider != last:
         lowindex = divider
 
         for index in range(divider, last):
-            if _x[index] < _x[lowindex]:
+            if x[index] < x[lowindex]:
                 lowindex = index
 
-        _swap(_x, divider, lowindex)
+        _swap(x, divider, lowindex)
 
         divider += 1
 
-    return _x
+    return x
 
 if __name__ == "__main__":
     test(selectionsort)

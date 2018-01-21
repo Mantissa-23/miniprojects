@@ -5,7 +5,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from test import test
 
 def mergesort(l):
-    """ Implementation of the mergesort algorithm
+    """ Implementation of the mergesort algorithm, not in-place
 
     Sorts list l by the following steps:
     1. Look at list l. If the length is less than 2 (either 1 or 0), return the
