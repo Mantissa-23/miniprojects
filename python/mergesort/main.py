@@ -2,7 +2,7 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
-from test import test
+from utils import test
 
 def mergesort(l):
     """ Implementation of the mergesort algorithm, not in-place

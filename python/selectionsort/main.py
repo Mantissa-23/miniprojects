@@ -2,14 +2,7 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
-from test import test
-
-def _swap(x, i, j):
-    """ Swaps the position of elements i and j in list x """
-
-    temp = x[j] # Store element j for later use
-    x[j] = x[i]
-    x[i] = temp
+from utils import test, swap
 
 def selectionsort(x):
     """ Python implementation of a selection sort, in-place
@@ -39,7 +32,7 @@ def selectionsort(x):
             if x[index] < x[lowindex]:
                 lowindex = index
 
-        _swap(x, divider, lowindex)
+        swap(x, divider, lowindex)
 
         divider += 1
 
