@@ -1,7 +1,3 @@
-# Some boilerplate code to grab test from the parent directory
-import os, sys
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
 from utils import test
 
 def mergesort(l):

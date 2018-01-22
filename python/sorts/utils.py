@@ -1,4 +1,4 @@
-def test(func):
+def test(func, verbose=True):
     """ Tests a sort function by comparing it to Python's builtin "Timsort." """
     
     tests = [
@@ -10,16 +10,16 @@ def test(func):
     ]
 
     for testlist in tests:
-        print("Unsorted: ", testlist)
+        if verbose: print("Unsorted: ", testlist)
         testsort = func(testlist)
-        print("Sorted: ", testsort, "\n")
+        if verbose: print("Sorted: ", testsort, "\n")
 
         stdsort = testlist.copy()
         stdsort.sort()
 
         assert stdsort == testsort, "Sorted list " + str(testsort) + " was not sorted correctly by " + func.__name__
         
-    print("All tests passed")
+    print(func.__name__, "passed all tests")
 
 def swap(x, i, j):
     """ Swaps the position of elements i and j in list x """
