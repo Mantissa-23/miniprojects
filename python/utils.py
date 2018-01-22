@@ -24,6 +24,9 @@ def test(func):
 def swap(x, i, j):
     """ Swaps the position of elements i and j in list x """
 
-    temp = x[j] # Store element j for later use
-    x[j] = x[i]
-    x[i] = temp
+    if i == j:
+        pass
+    else:
+        temp = x[j] # Store element j for later use
+        x[j] = x[i]
+        x[i] = temp
