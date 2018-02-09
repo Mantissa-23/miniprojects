@@ -2,6 +2,9 @@ import warnings
 
 '''
 Generic node class. Inherit and add to NodeGraph to add data or functionality.
+
+addEdge and removeEdge functions should never be directly called; they do not
+guarantee bidirectionality in an undirected graph and do not error check.
 '''
 class Node:
     def __init__(self):
@@ -26,12 +29,13 @@ class Edge:
 Implements AdjacencyList vertex and edge storage with a dictionary. Vertices 
 and edges can contain arbitrary data.
 
-Note: addNeighbor and removeNeighbor functions should only ever be called by
-the NodeGraph, as they do not implement bidirectionality and do not error check.
+
+directed sets the default behaviour of edge adding and can be overriden.
 '''
 class NodeGraph:
-    def __init__(self):
+    def __init__(self, directed=False):
         self.nodes = {}
+        self.directed = directed
         
     '''
     Adds vertex to graph, returns index of added vertex.
@@ -41,7 +45,10 @@ class NodeGraph:
     If the node has neighbors, the NodeGraph will attempt to add them as edges
     via the addEdge function.
     '''
-    def addVertex(self, vindex=None, node=None, directed=False):
+    def addVertex(self, vindex=None, node=None, directed=None):
+        if directed is None:
+            directed = self.directed
+
         if node is None:
             return self._addVertex(vindex, Node())
         else:
@@ -72,23 +79,29 @@ class NodeGraph:
 
     If directed=True, then vertex1 will point to vertex2, but not vice-versa.
     '''
-    def addEdge(self, vindex1, vindex2, edge=None, directed=False):
+    def addEdge(self, vindex1, vindex2, edge=None, directed=None):
+        if directed is None:
+            directed = self.directed
+
         # Handle potential errors
         if vindex1 in self.nodes[vindex2].edges.keys():
             warnings.warn("Vertex " + vindex1 + " and " + vindex2 
                           + " already share an edge; Edge not added.")
         # If no errors, continue adding edge
         else:
-            self.nodes[vindex1].addEdge(vindex2)
+            self.nodes[vindex1].addEdge(vindex2, edge)
             if not directed:
-                self.nodes[vindex2].addEdge(vindex1)
+                self.nodes[vindex2].addEdge(vindex1, edge)
     '''
     Removes edge from nodegraph between vertex 1 and vertex 2.
 
     If directed=true, only vertex1 will be affected. Otherwise both vertices 
     will be affected.
     '''
-    def removeEdge(self, vindex1, vindex2, directed=False):
+    def removeEdge(self, vindex1, vindex2, directed=None):
+        if directed is None:
+            directed = self.directed
+
         self.nodes[vindex1].removeEdge(vindex2)
         if not directed:
             self.nodes[vindex2].removeEdge(vindex1)
@@ -106,6 +119,7 @@ class NodeGraph:
         return self.nodes[vindex].edges.keys()
 
 if __name__ == "__main__":
+    # Bidirectional graph tests
     testgraph = NodeGraph()
 
     for i in range(0, 5):
@@ -117,15 +131,39 @@ if __name__ == "__main__":
     testgraph.addEdge(0, 4)
 
     assert testgraph.adjacent(0, 1)
+    # Test that adjacency works both ways for a bidirectional graph
+    assert testgraph.adjacent(1, 0)
     assert testgraph.adjacent(0, 4)
     assert not testgraph.adjacent(4, 3)
 
     testgraph.removeEdge(0, 1)
 
+    # After being deleted, an edge is no longer adjacent
     assert not testgraph.adjacent(0, 1)
 
     testgraph.removeVertex(0)
 
+    # After being deleted, a vertex should have no neighbors anywhere
     assert len(testgraph.neighbors(2)) == 0
+
+    # Adding an edge between a nonexistant vertex and an existing one should 
+    # not work
+    try:
+        testgraph.addEdge(0, 4)
+    except KeyError:
+        pass
+
+    # Directed graph tests
+    directionalgraph = NodeGraph(directed=True)
+    for i in range(0, 3):
+        directionalgraph.addVertex()
+
+    directionalgraph.addEdge(0, 1)
+    directionalgraph.addEdge(1, 2)
+    directionalgraph.addEdge(2, 0)
+
+    assert directionalgraph.adjacent(0, 1)
+    assert not directionalgraph.adjacent(1, 0)
+    assert len(directionalgraph.neighbors(1)) == 1
 
     print("All tests passed.")
