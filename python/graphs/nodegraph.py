@@ -10,11 +10,8 @@ class Node:
     def __init__(self):
         self.edges = {}
 
-    def addEdge(self, vindex, edge=None):
-        if edge is None:
-            self.edges[vindex] = Edge()
-        else:
-            self.edges[vindex] = edge
+    def addEdge(self, vindex, edge):
+        self.edges[vindex] = edge
 
     def removeEdge(self, vindex):
         del self.edges[vindex]
@@ -22,8 +19,10 @@ class Node:
 '''
 Generic edge class. Inherit and add to NodeGraph to add data or functionality.
 '''
-class Edge:
-    pass
+
+class WeightedEdge:
+    def __init__(self, weight=0):
+        self.weight = weight
 
 '''
 Implements AdjacencyList vertex and edge storage with a dictionary. Vertices 
@@ -33,9 +32,11 @@ and edges can contain arbitrary data.
 directed sets the default behaviour of edge adding and can be overriden.
 '''
 class NodeGraph:
-    def __init__(self, directed=False):
+    def __init__(self, directed=False, defaultNode=Node, defaultEdge=None):
         self.nodes = {}
         self.directed = directed
+        self.defaultNode = defaultNode
+        self.defaultEdge = defaultEdge
         
     '''
     Adds vertex to graph, returns index of added vertex.
@@ -50,12 +51,20 @@ class NodeGraph:
             directed = self.directed
 
         if node is None:
-            return self._addVertex(vindex, Node())
+            return self._addVertex(vindex, self.defaultNode())
         else:
             nindex = self._addVertex(vindex, node)
             for neighbor in node.edges.keys():
                 self.addEdge(nindex, neighbor, node.edges[neighbor], directed)
 
+    '''
+    Performs actual add, split into separate function to reduce duplicate code
+    in addVertex (I guess I could've used a lambda as well).
+
+    If vindex is None, the function finds the number of the biggest node and
+    increments it by 1 to get the next index. This results in list-like
+    functionality when no vindexes are specified, and is a sane default.
+    '''
     def _addVertex(self, vindex, node):
         if vindex is None:
             nindex = max(self.nodes.keys(), default=-1) + 1
@@ -78,10 +87,17 @@ class NodeGraph:
     Adds an edge to the nodegraph between vertex 1 and vertex 2.
 
     If directed=True, then vertex1 will point to vertex2, but not vice-versa.
+
+    Note that while a default Node contains data and therefore must be
+    inherited from or mimcked for replacement, the default edge class is just
+    None. Anything can be used as an edge class as in the AdjacencyList
+    implementation, edges contain no data.
     '''
     def addEdge(self, vindex1, vindex2, edge=None, directed=None):
         if directed is None:
             directed = self.directed
+        if edge is None:
+            edge = self.defaultEdge
 
         # Handle potential errors
         if vindex1 in self.nodes[vindex2].edges.keys():
@@ -106,6 +122,13 @@ class NodeGraph:
         if not directed:
             self.nodes[vindex2].removeEdge(vindex1)
 
+    '''
+    Adds number of vertices specified by count. *args and **kwargs are passed 
+    to the addVertex function. See addVertex for arguments.
+    '''
+    def addVertices(self, count, *args, **kwargs):
+        for i in range(0, count):
+            self.addVertex(*args, **kwargs)
 
     '''
     Checks if vertex 2 is a neighbor of vertex 1.
@@ -122,8 +145,7 @@ if __name__ == "__main__":
     # Bidirectional graph tests
     testgraph = NodeGraph()
 
-    for i in range(0, 5):
-        testgraph.addVertex()
+    testgraph.addVertices(5)
 
     testgraph.addEdge(0, 1)
     testgraph.addEdge(0, 2)
@@ -155,8 +177,7 @@ if __name__ == "__main__":
 
     # Directed graph tests
     directionalgraph = NodeGraph(directed=True)
-    for i in range(0, 3):
-        directionalgraph.addVertex()
+    directionalgraph.addVertices(3)
 
     directionalgraph.addEdge(0, 1)
     directionalgraph.addEdge(1, 2)
