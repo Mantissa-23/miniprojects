@@ -17,14 +17,6 @@ class Node:
         del self.edges[vindex]
 
 '''
-Generic edge class. Inherit and add to NodeGraph to add data or functionality.
-'''
-
-class WeightedEdge:
-    def __init__(self, weight=0):
-        self.weight = weight
-
-'''
 Implements AdjacencyList vertex and edge storage with a dictionary. Vertices 
 and edges can contain arbitrary data.
 
@@ -32,11 +24,12 @@ and edges can contain arbitrary data.
 directed sets the default behaviour of edge adding and can be overriden.
 '''
 class NodeGraph:
-    def __init__(self, directed=False, defaultNode=Node, defaultEdge=None):
+    def __init__(self, directed=False, size=0, defaultNode=Node, defaultEdge=None):
         self.nodes = {}
         self.directed = directed
         self.defaultNode = defaultNode
         self.defaultEdge = defaultEdge
+        self.addVertices(size)
         
     '''
     Adds vertex to graph, returns index of added vertex.
@@ -72,7 +65,7 @@ class NodeGraph:
             return nindex
         else:
             if vindex in self.nodes.keys():
-                warnings.warn("Vertex " + vindex 
+                warnings.warn("Vertex " + str(vindex)
                               + " already exists. Vertex not added.")
             else:
                 self.nodes[vindex] = node
@@ -101,7 +94,7 @@ class NodeGraph:
 
         # Handle potential errors
         if vindex1 in self.nodes[vindex2].edges.keys():
-            warnings.warn("Vertex " + vindex1 + " and " + vindex2 
+            warnings.warn("Vertex " + str(vindex1) + " and " + str(vindex2) 
                           + " already share an edge; Edge not added.")
         # If no errors, continue adding edge
         else:
@@ -140,6 +133,27 @@ class NodeGraph:
 
     def neighbors(self, vindex):
         return self.nodes[vindex].edges.keys()
+
+    def nodeCount(self):
+        return len(self.nodes)
+
+    '''
+    This counter does not work correctly for all cases; it only works for
+    homogenous graphs; it will not work for graphs that mix directedness.
+    '''
+    def edgeCount(self, directed=None):
+        if directed is None:
+            directed = self.directed
+
+        nedge = 0
+        for node in self.nodes:
+            nedge += len(node.edges)
+
+        if not directed:
+            return nedge/2
+        if directed:
+            return nedge
+
 
 if __name__ == "__main__":
     # Bidirectional graph tests
