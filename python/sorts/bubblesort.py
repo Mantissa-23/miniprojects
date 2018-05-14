@@ -1,5 +1,6 @@
 from utils import test, swap
 
+
 def bubblesort(x):
     """ Implementation of bubble sort algorithm, in-place
 
@@ -24,6 +25,7 @@ def bubblesort(x):
             break
 
     return x
+
 
 if __name__ == "__main__":
     test(bubblesort)

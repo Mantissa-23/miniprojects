@@ -1,10 +1,10 @@
 import fileinput
 
-from nodegraph import NodeGraph
 from util import importGraph
 
+
 def bfsTree(ng, startingNode, debug=False):
-    #bfsTree = NodeGraph(directed=True, size=ng.edgeCount())
+    # bfsTree = NodeGraph(directed=True, size=ng.edgeCount())
     visited = []
 
     stack = []
@@ -14,9 +14,11 @@ def bfsTree(ng, startingNode, debug=False):
         v = stack.pop()
 
         if v not in visited:
-            if debug: print(v)
+            if debug:
+                print(v)
             visited.append(v)
             stack += ng.neighbors(v)
+
 
 if __name__ == "__main__":
     data = fileinput.input()

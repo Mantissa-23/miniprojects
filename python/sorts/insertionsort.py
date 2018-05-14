@@ -1,5 +1,6 @@
 from utils import test, swap
 
+
 def insertionsort(x):
     for i in range(1, len(x)):
         j = i
@@ -7,6 +8,7 @@ def insertionsort(x):
             swap(x, j, j-1)
             j -= 1
     return x
+
 
 if __name__ == "__main__":
     test(insertionsort)

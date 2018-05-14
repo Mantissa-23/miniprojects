@@ -1,5 +1,6 @@
 from utils import test, swap
 
+
 def selectionsort(x):
     """ Python implementation of a selection sort, in-place
 
@@ -16,7 +17,7 @@ def selectionsort(x):
 
     """
 
-    #_x = x.copy()
+    # _x = x.copy()
     
     divider = 0
     last = len(x)
@@ -33,6 +34,7 @@ def selectionsort(x):
         divider += 1
 
     return x
+
 
 if __name__ == "__main__":
     test(selectionsort)

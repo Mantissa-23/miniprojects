@@ -6,6 +6,8 @@ Generic node class. Inherit and add to NodeGraph to add data or functionality.
 addEdge and removeEdge functions should never be directly called; they do not
 guarantee bidirectionality in an undirected graph and do not error check.
 '''
+
+
 class Node:
     def __init__(self):
         self.edges = {}
@@ -16,15 +18,19 @@ class Node:
     def removeEdge(self, vindex):
         del self.edges[vindex]
 
+
 '''
-Implements AdjacencyList vertex and edge storage with a dictionary. Vertices 
+Implements AdjacencyList vertex and edge storage with a dictionary. Vertices
 and edges can contain arbitrary data.
 
 
 directed sets the default behaviour of edge adding and can be overriden.
 '''
+
+
 class NodeGraph:
-    def __init__(self, directed=False, size=0, defaultNode=Node, defaultEdge=None):
+    def __init__(self, directed=False, size=0, 
+                 defaultNode=Node, defaultEdge=None):
         self.nodes = {}
         self.directed = directed
         self.defaultNode = defaultNode
@@ -34,7 +40,8 @@ class NodeGraph:
     '''
     Adds vertex to graph, returns index of added vertex.
 
-    If no node is passed, a generic one containing no extra data will be created.
+    If no node is passed, a generic one
+    containing no extra data will be created.
 
     If the node has neighbors, the NodeGraph will attempt to add them as edges
     via the addEdge function.
@@ -104,7 +111,7 @@ class NodeGraph:
     '''
     Removes edge from nodegraph between vertex 1 and vertex 2.
 
-    If directed=true, only vertex1 will be affected. Otherwise both vertices 
+    If directed=true, only vertex1 will be affected. Otherwise both vertices
     will be affected.
     '''
     def removeEdge(self, vindex1, vindex2, directed=None):
@@ -116,7 +123,7 @@ class NodeGraph:
             self.nodes[vindex2].removeEdge(vindex1)
 
     '''
-    Adds number of vertices specified by count. *args and **kwargs are passed 
+    Adds number of vertices specified by count. *args and **kwargs are passed
     to the addVertex function. See addVertex for arguments.
     '''
     def addVertices(self, count, *args, **kwargs):
@@ -182,7 +189,7 @@ if __name__ == "__main__":
     # After being deleted, a vertex should have no neighbors anywhere
     assert len(testgraph.neighbors(2)) == 0
 
-    # Adding an edge between a nonexistant vertex and an existing one should 
+    # Adding an edge between a nonexistant vertex and an existing one should
     # not work
     try:
         testgraph.addEdge(0, 4)

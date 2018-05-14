@@ -1,5 +1,6 @@
 from utils import test
 
+
 def mergesort(l):
     """ Implementation of the mergesort algorithm, not in-place
 
@@ -26,6 +27,7 @@ def mergesort(l):
 
         return merge(left, right)
 
+
 def merge(left, right):
     """ Merge two lists by the following method:
 
@@ -48,12 +50,13 @@ def merge(left, right):
             lindex += 1
 
     # It is necessary to append the remainder of the lists to the end of the
-    # worklist because we used `and` instead of `or` for the loop's conditional.
-    # Using `or` would be more concise, but less efficient.
+    # worklist because we used `and` instead of `or` for the loop's 
+    # conditional. Using `or` would be more concise, but less efficient.
     worklist += left[lindex:]
     worklist += right[rindex:]
 
     return worklist
+
 
 if __name__ == "__main__":
     test(mergesort)
