@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <unordered_map>
 #include "doctest.h"
+#include "util.h"
 
 using namespace std;
 
@@ -20,17 +21,6 @@ public:
     return i + 1;
   }
 };
-
-bool isEqual(vector<int> arr1, vector<int> arr2) {
-  if(arr1.size() != arr2.size())
-    return false;
-
-  for(int i = 0; i < arr1.size(); i++) {
-    if(arr1[i] != arr2[i])
-      return false;
-  }
-  return true;
-}
 
 TEST_CASE("tests") {
   Solution s;
