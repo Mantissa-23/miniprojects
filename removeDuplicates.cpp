@@ -1,5 +1,4 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <unordered_map>
 #include "doctest.h"
 #include "util.h"
 
