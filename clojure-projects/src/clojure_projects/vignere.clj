@@ -1,20 +1,20 @@
-(def u clojure.string/upper-case)
-(def ci #(- (int %) 65))
-(def ic #(char (+ % 65)))
-(def as #(apply str (map %1 %2 %3)))
-(defn ag [o] #(ic (mod (o %1 %2) 26)))
+(def u clojure.string/upper-cse)
+(def i #(- (int %) 65))
+(def c #(char (+ % 65)))
+(def s #(apply str (map %1 %2 %3)))
+(defn g [o] #(c (mod (o %1 %2) 26)))
 
-(defn ed [m k f]
-  (let [mu (map ci (u m))
-        ku (map ci (cycle (u k)))]
-    (f mu ku)))
+(defn a [m k f]
+  (let [r (map i (u m))
+        v (map i (cycle (u k)))]
+    (f r v)))
 
 (defn e [m k]
-  (ed m k  #(as (ag +) %1 %2)))
+  (a m k  #(s (g +) %1 %2)))
 
 (defn d [m k]
-  (ed m k  #(as (ag -) %1 %2)))
+  (a m k  #(s (g -) %1 %2)))
 
-(let [[me ke] *command-line-args*
-      en (e me ke)]
-  (apply println [en (d en ke)]))
+(let [[m k] *command-line-args*
+      z (e m k)]
+  (apply println [z (d z k)]))
