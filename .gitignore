@@ -1,3 +1,4 @@
 *.out
 *.o
 __pycache__
+.mypy_cache
