@@ -14,3 +14,7 @@
 
 (defn d [m k]
   (ed m k  #(as (ag -) %1 %2)))
+
+(let [[me ke] *command-line-args*
+      en (e me ke)]
+  (apply println [en (d en ke)]))
